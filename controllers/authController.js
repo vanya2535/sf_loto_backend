@@ -47,7 +47,8 @@ class authController {
         user: {
           id: user._id,
           username,
-          roles: user.roles
+          roles: user.roles,
+          balance: user.balance
         }
       })
     } catch (e) {
@@ -78,7 +79,8 @@ class authController {
         user: {
           id: user._id,
           username,
-          roles: user.roles
+          roles: user.roles,
+          balance: user.balance
         }
       })
     } catch (e) {

@@ -2,9 +2,10 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const authRouter = require('./routers/authRouter')
+const walletRouter = require('./routers/walletRouter')
 
 const corsOptions = {
-  origin: 'http://localhost:8080',
+  origin: '*',
   credentials: true,
   optionSuccessStatus: 200,
   exposedHeaders: '*'
@@ -20,6 +21,7 @@ app.use(express.json())
 app.use(cors(corsOptions))
 
 app.use('/auth', authRouter)
+app.use('/wallet', walletRouter)
 
 async function start() {
   try {
