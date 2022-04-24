@@ -80,4 +80,9 @@ router.get(
   authController.getUsers
 )
 
+router.get(
+  '/data',
+  authController.getData
+)
+
 module.exports = router

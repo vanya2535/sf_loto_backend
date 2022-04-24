@@ -11,7 +11,7 @@ class walletContoller {
         return res.status(400).json({ message: 'Пользователь не найден' })
       }
 
-      user.balance += sum
+      user.balance = Number(user.balance) + Number(sum)
       await user.save()
       return res.status(200).json({ balance: user.balance })
     } catch (e) {
@@ -39,7 +39,7 @@ class walletContoller {
       return res.status(200).json({ balance: user.balance })
     } catch (e) {
       console.log(e)
-      return res.status(400).json({ message: 'Ошибка в процессе пополнения кошелька' })
+      return res.status(400).json({ message: 'Ошибка в процессе оплаты' })
     }
   }
 }
