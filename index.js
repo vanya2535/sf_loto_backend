@@ -35,7 +35,7 @@ async function start() {
     })
 
     app.listen(PORT, () => {
-      console.log(`Server listen on http://localhost:${PORT}`)
+      console.log(`Server listen on https://localhost:${PORT}`)
     })
   } catch (e) {
     console.log(e)
