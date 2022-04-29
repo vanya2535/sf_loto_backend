@@ -3,6 +3,8 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const authRouter = require('./routers/authRouter')
 const walletRouter = require('./routers/walletRouter')
+const userLotteryRouter = require('./routers/userLotteryRouter')
+const lotteryRouter = require('./routers/lotteryRouter')
 
 const corsOptions = {
   origin: '*',
@@ -22,6 +24,8 @@ app.use(cors(corsOptions))
 
 app.use('/auth', authRouter)
 app.use('/wallet', walletRouter)
+app.use('/user-lottery', userLotteryRouter)
+app.use('/lottery', lotteryRouter)
 
 async function start() {
   try {
