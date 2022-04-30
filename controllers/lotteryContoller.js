@@ -1,3 +1,4 @@
+const { v4: uuid } = require('uuid')
 const { validationResult } = require('express-validator')
 const Lottery = require('../models/Lottery')
 
@@ -35,7 +36,6 @@ class lotteryContoller {
     }
 
     try {
-
       const {
         title,
         description,
@@ -59,13 +59,14 @@ class lotteryContoller {
       }
 
       const lottery = new Lottery({
+        serial: uuid(),
         title,
         description,
         prizes,
         ticketCost,
         ticketsCount,
-        startDate,
-        finishDate
+        startDate: startDate || Date.now() + 3600000,
+        finishDate: finishDate || Date.now() + 7200000
       })
 
       await lottery.save()
