@@ -1,6 +1,7 @@
 const { v4: uuid } = require('uuid')
 const { validationResult } = require('express-validator')
 const Lottery = require('../models/Lottery')
+const paginationService = require('../services/paginationService')
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * (max + 1));
@@ -97,19 +98,24 @@ class lotteryContoller {
 
   async getLotteries(req, res) {
     try {
-      const { page, per_page } = req.query
+      const { page, perPage } = req.query
 
       const lotteries = await Lottery.find()
         .sort('-startDate')
-        .skip((per_page || 20) * (page - 1 || 0))
-        .limit(per_page || 20)
+        .skip((perPage || 20) * (page - 1 || 0))
+        .limit(perPage || 20)
 
       for (let lottery of lotteries) {
         handleLotteryState(lottery)
         await lottery.save()
       }
 
-      return res.status(200).json(lotteries)
+      const count = await Lottery.count()
+
+      return res
+        .status(200)
+        .set(paginationService.getPaginationHeaders(count, page, perPage))
+        .json(lotteries)
     } catch (e) {
       console.log(e)
       return res.status(400).json({ message: 'Ошибка в процессе получения списка лотерей' })

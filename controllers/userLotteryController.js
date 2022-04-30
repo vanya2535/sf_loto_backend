@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator')
 const User = require('../models/User')
 const Lottery = require('../models/Lottery')
 const UserLottery = require('../models/UserLottery')
+const paginationService = require('../services/paginationService')
 
 class userLotteryContoller {
   async addLotteryTickets(req, res) {
@@ -67,13 +68,18 @@ class userLotteryContoller {
         return res.status(400).json({ message: 'Пользователь не найден' })
       }
 
-      const { page, per_page } = req.query
+      const { page, perPage } = req.query
 
       const lotteries = await UserLottery.find({ user: id })
-        .skip((per_page || 20) * (page - 1 || 0))
-        .limit(per_page || 20)
+        .skip((perPage || 20) * (page - 1 || 0))
+        .limit(perPage || 20)
 
-      return res.status(200).json(lotteries)
+      const count = await UserLottery.count({ user: id })
+
+      return res
+        .status(200)
+        .set(paginationService.getPaginationHeaders(count, page, perPage))
+        .json(lotteries)
     } catch (e) {
       console.log(e)
       return res.status(400).json({ message: 'Ошибка в процессе получения информации о лотереях пользователя' })
