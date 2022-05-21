@@ -107,7 +107,7 @@ class lotteryContoller {
 
       for (let lottery of lotteries) {
         handleLotteryState(lottery)
-        await lottery.save()
+        await lottery.update()
       }
 
       const count = await Lottery.count()
@@ -133,7 +133,7 @@ class lotteryContoller {
 
       handleLotteryState(lottery)
 
-      await lottery.save()
+      await lottery.update()
       return res.status(200).json(lottery)
     } catch (e) {
       console.log(e)
