@@ -107,7 +107,7 @@ class lotteryContoller {
 
       for (let lottery of lotteries) {
         handleLotteryState(lottery)
-        await lottery.update()
+        await Lottery.findOneAndUpdate({ serial: lottery.serial }, lottery)
       }
 
       const count = await Lottery.count()
@@ -132,8 +132,8 @@ class lotteryContoller {
       }
 
       handleLotteryState(lottery)
+      await Lottery.findOneAndUpdate({ serial: lottery.serial }, lottery)
 
-      await lottery.update()
       return res.status(200).json(lottery)
     } catch (e) {
       console.log(e)
