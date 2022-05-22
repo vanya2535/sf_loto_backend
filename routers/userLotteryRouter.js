@@ -28,5 +28,11 @@ router.get(
   userLotteryController.getUserLotteries
 )
 
+router.get(
+  '/:serial',
+  [authMiddleware, roleMiddleware('USER')],
+  userLotteryController.getUserLottery
+)
+
 
 module.exports = router

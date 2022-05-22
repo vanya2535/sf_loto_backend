@@ -85,6 +85,28 @@ class userLotteryContoller {
       return res.status(400).json({ message: 'Ошибка в процессе получения информации о лотереях пользователя' })
     }
   }
+
+  async getUserLottery(req, res) {
+    try {
+      const { id } = req.user
+      const user = await User.findById(id)
+      
+      if (!user) {
+        return res.status(400).json({ message: 'Пользователь не найден' })
+      }
+
+      const serial = req.params.serial
+
+      const lottery = await UserLottery.findOne({ user: id, serial })
+
+      return res
+        .status(200)
+        .json(lottery)
+    } catch (e) {
+      console.log(e)
+      return res.status(400).json({ message: 'Ошибка в процессе получения информации о лотерее' })
+    }
+  }
 }
 
 module.exports = new userLotteryContoller()
