@@ -17,7 +17,13 @@ const User = new Schema({
       type: String,
       ref: 'Role'
     }
-  ]
+  ],
+
+  balance: {
+    type: Number,
+    required: true,
+    default: 0
+  }
 })
 
 module.exports = model('User', User)

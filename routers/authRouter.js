@@ -18,7 +18,7 @@ router.post(
 
     check(
       'username',
-      'Максимальная длина имени пользователя - 5 знаков'
+      'Максимальная длина имени пользователя - 10 знаков'
     ).isLength({
       max: 10
     }),
@@ -78,6 +78,11 @@ router.get(
   '/',
   [authMiddleware, roleMiddleware('ADMIN')],
   authController.getUsers
+)
+
+router.get(
+  '/data',
+  authController.getData
 )
 
 module.exports = router

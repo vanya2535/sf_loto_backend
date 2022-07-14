@@ -47,7 +47,8 @@ class authController {
         user: {
           id: user._id,
           username,
-          roles: user.roles
+          roles: user.roles,
+          balance: user.balance
         }
       })
     } catch (e) {
@@ -78,7 +79,8 @@ class authController {
         user: {
           id: user._id,
           username,
-          roles: user.roles
+          roles: user.roles,
+          balance: user.balance
         }
       })
     } catch (e) {
@@ -91,6 +93,40 @@ class authController {
     try {
       const users = await User.find()
       return res.json(users)
+    } catch (e) {
+      console.log(e)
+      return res
+        .status(400)
+        .json({ message: 'Ошибка в процессе получения данных' })
+    }
+  }
+
+  async getData(req, res) {
+    try {
+      const { token } = req.query
+
+      if (!token) {
+        return res.status(403).json({ message: 'Пользователь не авторизован' })
+      }
+
+      const { secret } = require('../config')
+      const { id } = jwt.verify(token, secret)
+
+      const user = await User.findById(id)
+
+      if (!user) {
+        return res.status(400).json({ message: 'Пользователь не найден' })
+      }
+
+      return res.status(200).json({
+        token,
+        user: {
+          id: user._id,
+          username: user.username,
+          roles: user.roles,
+          balance: user.balance
+        }
+      })
     } catch (e) {
       console.log(e)
       return res
